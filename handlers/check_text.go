@@ -17,11 +17,11 @@ func init() {
 }
 
 func CheckText(c *gin.Context) {
-	var req Request
+	var req request
 	err := c.BindJSON(&req)
 	if err != nil {
-		logger.Error("Failed to bind json with error: %s", err.Error())
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		logger.Errorf("Failed to bind json with error: %s", err.Error())
+		c.JSON(http.StatusBadRequest, errorJSON{Error: err.Error()})
 		return
 	}
 	logger.Debugf("Sites: %v", req.Sites)
@@ -30,12 +30,12 @@ func CheckText(c *gin.Context) {
 	req.SearchText = strings.ToLower(req.SearchText)
 	logger.Debugf("Search text after lower: %s", req.SearchText)
 
-	var res Response
+	var res response
 	for _, s := range req.Sites {
 		matched, err := regexp.Match(req.SearchText, []byte(s))
 		if err != nil {
-			logger.Error("Failed to matched with error: %s", err.Error())
-			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			logger.Errorf("Failed to matched with error: %s", err.Error())
+			c.JSON(http.StatusInternalServerError, errorJSON{Error: err.Error()})
 			return
 		}
 		if matched {
@@ -45,5 +45,9 @@ func CheckText(c *gin.Context) {
 	}
 	logger.Debugf("Matched sites: %v", res.FoundAtSites)
 
+	if len(res.FoundAtSites) == 0 {
+		c.JSON(http.StatusNoContent, nil)
+		return
+	}
 	c.JSON(http.StatusOK, res)
 }

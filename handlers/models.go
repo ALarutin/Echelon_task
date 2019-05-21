@@ -1,10 +1,14 @@
 package handlers
 
-type Request struct {
+type request struct {
 	Sites      []string `json:"sites"`
 	SearchText string   `json:"search-text"`
 }
 
-type Response struct {
+type response struct {
 	FoundAtSites []string `json:"found-at-sites"`
+}
+
+type errorJSON struct {
+	Error string `json:"error"`
 }
