@@ -6,5 +6,5 @@ type Request struct {
 }
 
 type Response struct {
-	FoundAtSites []string `json:"found_at_sites"`
+	FoundAtSites []string `json:"found-at-sites"`
 }
