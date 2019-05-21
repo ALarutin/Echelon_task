@@ -17,10 +17,10 @@ func init() {
 }
 
 func CheckText(c *gin.Context) {
-	var req request
+	var req Request
 	err := c.BindJSON(&req)
 	if err != nil {
-		logger.Errorf("Failed to bind json with error: %s", err.Error())
+		logger.Errorf("Failed when binding json : %s", err.Error())
 		c.JSON(http.StatusBadRequest, errorJSON{Error: err.Error()})
 		return
 	}
@@ -30,11 +30,11 @@ func CheckText(c *gin.Context) {
 	req.SearchText = strings.ToLower(req.SearchText)
 	logger.Debugf("Search text after lower: %s", req.SearchText)
 
-	var res response
+	var res Response
 	for _, s := range req.Sites {
 		matched, err := regexp.Match(req.SearchText, []byte(s))
 		if err != nil {
-			logger.Errorf("Failed to matched with error: %s", err.Error())
+			logger.Errorf("Failed when matching sites: %s", err.Error())
 			c.JSON(http.StatusInternalServerError, errorJSON{Error: err.Error()})
 			return
 		}
