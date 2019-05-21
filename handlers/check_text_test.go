@@ -34,7 +34,7 @@ func TestCheckText_Successful(t *testing.T) {
 		},
 		{
 			Number:       3,
-			Sites:        []string{"https://go⌘ogle.com", "https://yahoo.com"},
+			Sites:        []string{"https://go⌘ogle.com", "https://google.com"},
 			SearchText:   "GO⌘OGLE",
 			FoundAtSites: `{"found-at-sites":["https://go⌘ogle.com"]}`,
 		},
