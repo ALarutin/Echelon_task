@@ -48,7 +48,7 @@ func TestCheckText_Successful(t *testing.T) {
 			t.Errorf("Failed when marshiling test case: %s", err.Error())
 			return
 		}
-		req, err := http.NewRequest("POST", "/checkText", bytes.NewBuffer(data))
+		req, err := http.NewRequest(http.MethodPost, "/checkText", bytes.NewBuffer(data))
 		if err != nil {
 			t.Errorf("Failed when creating new request: %s", err.Error())
 			return
@@ -89,7 +89,7 @@ func TestCheckText_Unsuccessful_BadRequest(t *testing.T) {
 	r := router.GetRouter()
 
 	for _, test := range tests {
-		req, err := http.NewRequest("POST", "/checkText", bytes.NewBuffer([]byte(test.WrongJSON)))
+		req, err := http.NewRequest(http.MethodPost, "/checkText", bytes.NewBuffer([]byte(test.WrongJSON)))
 		if err != nil {
 			t.Errorf("Failed when creating new request: %s", err.Error())
 			return
@@ -130,7 +130,7 @@ func TestCheckText_Unsuccessful_NoContent(t *testing.T) {
 			t.Errorf("Failed when marshiling test case: %s", err.Error())
 			return
 		}
-		req, err := http.NewRequest("POST", "/checkText", bytes.NewBuffer(data))
+		req, err := http.NewRequest(http.MethodPost, "/checkText", bytes.NewBuffer(data))
 		if err != nil {
 			t.Errorf("Failed when creating new request: %s", err.Error())
 			return
