@@ -30,6 +30,7 @@ func CheckText(c *gin.Context) {
 	req.SearchText = strings.ToLower(req.SearchText)
 	logger.Debugf("Search text after lower: %s", req.SearchText)
 
+	//Обходим полученный слайс строк, проверяя каждый эелмент этого слайса на совпадения SearchText
 	var res Response
 	for _, s := range req.Sites {
 		matched, err := regexp.Match(req.SearchText, []byte(s))
@@ -38,6 +39,7 @@ func CheckText(c *gin.Context) {
 			c.JSON(http.StatusInternalServerError, errorJSON{Error: err.Error()})
 			return
 		}
+		//Если совпадение есть, добавляем данный эелемент слайса в слайс FoundAtSites для response
 		if matched {
 			res.FoundAtSites = append(res.FoundAtSites, s)
 			logger.Debugf("Matched site: %s", s)
